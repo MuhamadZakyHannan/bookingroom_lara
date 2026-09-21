@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\AttendanceStatus;
+use App\Enums\BookingStatus;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,6 +38,8 @@ class Booking extends Model
         return [
             'date' => 'date',
             'attendees_count' => 'integer',
+            'status' => BookingStatus::class,
+            'attendance_status' => AttendanceStatus::class,
             'check_in_at' => 'datetime',
             'check_out_at' => 'datetime',
             'no_show_at' => 'datetime',
@@ -54,5 +59,15 @@ class Booking extends Model
     public function notifications(): HasMany
     {
         return $this->hasMany(MeetingNotification::class);
+    }
+
+    public function startsAt(): CarbonImmutable
+    {
+        return CarbonImmutable::parse($this->date->format('Y-m-d').' '.$this->start_time);
+    }
+
+    public function endsAt(): CarbonImmutable
+    {
+        return CarbonImmutable::parse($this->date->format('Y-m-d').' '.$this->end_time);
     }
 }

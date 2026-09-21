@@ -1,4 +1,5 @@
 import './bootstrap';
+import { initializeMeetingCalendar } from './calendar';
 
 document.addEventListener('click', (event) => {
     if (!event.target.closest('[data-theme-toggle]')) return;
@@ -6,3 +7,5 @@ document.addEventListener('click', (event) => {
     const darkMode = document.documentElement.classList.toggle('dark');
     localStorage.theme = darkMode ? 'dark' : 'light';
 });
+
+document.addEventListener('DOMContentLoaded', initializeMeetingCalendar);

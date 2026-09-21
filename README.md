@@ -52,16 +52,31 @@ Sudah tersedia:
 - Model Eloquent untuk pengguna, ruangan, booking, display, dan notifikasi.
 - Login, logout, dan pendaftaran dengan password kuat.
 - Middleware role admin.
-- Dashboard baca-saja dengan statistik, pencarian ruangan, jadwal hari ini, persetujuan, dan monitoring display.
+- Dashboard dengan statistik, pencarian ruangan, jadwal hari ini, persetujuan, dan monitoring display.
+- Pembuatan serta pembatalan booking dengan validasi kapasitas dan bentrok jadwal.
+- Approval/reject admin dengan perlindungan terhadap jadwal terkonfirmasi yang bentrok.
+- Halaman booking pengguna dan otorisasi berbasis kepemilikan.
+- Check-in/check-out, grace period, no-show, serta auto check-out.
+- Kalender bulanan dan daftar agenda tanpa tampilan mingguan.
+- Command attendance yang aman dijalankan terjadwal.
 - Light mode dan dark mode.
 
 Tahap berikutnya:
 
-- Pembuatan dan pembatalan booking.
-- Approval admin dan analisis konflik SAW.
-- Kalender lengkap.
-- Check-in/check-out dan proses attendance otomatis.
+- Analisis konflik SAW.
 - Pengelolaan ruangan, pengguna, display, laporan, dan ekspor.
 - Monitor lobby dan monitor pintu.
 
 Sampai seluruh modul selesai dan tervalidasi, aplikasi PHP lama di `Room_Booking_System` tetap menjadi aplikasi utama dan jalur rollback.
+
+Penjelasan batas lapisan, transaksi, concurrency, dan keamanan tersedia di [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
+## Menjalankan scheduler
+
+Untuk pengembangan lokal:
+
+```powershell
+php artisan schedule:work
+```
+
+Untuk deployment, jalankan `php artisan schedule:run` setiap menit melalui Windows Task Scheduler.

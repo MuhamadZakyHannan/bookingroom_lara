@@ -55,7 +55,7 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
-    public function notifications(): HasMany
+    public function meetingNotifications(): HasMany
     {
         return $this->hasMany(MeetingNotification::class, 'recipient_user_id');
     }

@@ -14,6 +14,8 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertRedirect(route('login', absolute: false));
+        $response
+            ->assertRedirect(route('login', absolute: false))
+            ->assertHeader('X-Content-Type-Options', 'nosniff');
     }
 }

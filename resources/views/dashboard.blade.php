@@ -8,9 +8,9 @@
             <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">Dashboard Ruangan</h1>
             <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Pantau ketersediaan dan jadwal ruang rapat perusahaan.</p>
         </div>
-        <span class="w-fit rounded-xl border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold text-blue-700 dark:border-blue-800 dark:bg-blue-950/50 dark:text-blue-300">
-            Migrasi Laravel tahap awal
-        </span>
+        <a href="{{ route('bookings.create') }}" class="inline-flex w-fit items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition hover:bg-blue-700">
+            <i class="fas fa-calendar-plus"></i> Pesan Ruangan
+        </a>
     </div>
 
     <section class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="Ringkasan dashboard">
@@ -85,6 +85,9 @@
                                 <p class="mt-2 text-xs text-slate-500 dark:text-slate-400"><i class="fas fa-location-dot mr-1 text-rose-500"></i>{{ $room->location }} · {{ $room->floor }}</p>
                                 <p class="mt-2 text-xs font-medium text-slate-600 dark:text-slate-300"><i class="fas fa-users mr-1 text-blue-500"></i>Kapasitas {{ $room->capacity }} orang</p>
                                 <p class="mt-3 line-clamp-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{{ $room->description }}</p>
+                                <a href="{{ route('bookings.create', ['room_id' => $room->id]) }}" class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-2 text-xs font-bold text-white transition hover:bg-blue-700">
+                                    <i class="fas fa-calendar-check"></i> Pesan
+                                </a>
                             </div>
                         </article>
                     @empty
