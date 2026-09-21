@@ -39,6 +39,26 @@ class PageRenderingTest extends TestCase
             ->assertSee('Persetujuan Peminjaman');
     }
 
+    public function test_admin_management_pages_render(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $this->createSchedule($admin, BookingStatus::Pending, null);
+
+        $pages = [
+            'admin.conflicts.index' => 'Rekomendasi Konflik SAW',
+            'admin.rooms.index' => 'Kelola Ruangan',
+            'admin.users.index' => 'Kelola Pengguna',
+            'admin.displays.index' => 'Perangkat Display',
+        ];
+
+        foreach ($pages as $route => $text) {
+            $this->actingAs($admin)
+                ->get(route($route, absolute: false))
+                ->assertOk()
+                ->assertSee($text);
+        }
+    }
+
     public function test_security_headers_are_added_to_web_responses(): void
     {
         $this->get(route('login', absolute: false))

@@ -3,6 +3,8 @@
 @section('title', 'Persetujuan Booking - MeetSpace')
 
 @section('content')
+    <x-admin-nav />
+
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Persetujuan Peminjaman</h1>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Tinjau dan putuskan pengajuan pemakaian ruangan.</p>

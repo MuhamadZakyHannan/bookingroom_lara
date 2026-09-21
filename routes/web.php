@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\ConflictController;
+use App\Http\Controllers\Admin\RoomController as AdminRoomController;
+use App\Http\Controllers\Admin\RoomDisplayController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CalendarController;
@@ -40,5 +44,24 @@ Route::middleware('auth')->group(function () {
         Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
         Route::post('/bookings/{booking}/approve', [AdminBookingController::class, 'approve'])->name('bookings.approve');
         Route::post('/bookings/{booking}/reject', [AdminBookingController::class, 'reject'])->name('bookings.reject');
+
+        Route::get('/conflicts', [ConflictController::class, 'index'])->name('conflicts.index');
+        Route::post('/conflicts/{booking}/apply', [ConflictController::class, 'apply'])
+            ->middleware('throttle:10,1')
+            ->name('conflicts.apply');
+
+        Route::get('/rooms', [AdminRoomController::class, 'index'])->name('rooms.index');
+        Route::post('/rooms', [AdminRoomController::class, 'store'])->name('rooms.store');
+        Route::put('/rooms/{room}', [AdminRoomController::class, 'update'])->name('rooms.update');
+        Route::delete('/rooms/{room}', [AdminRoomController::class, 'destroy'])->name('rooms.destroy');
+
+        Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.role');
+        Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+
+        Route::get('/displays', [RoomDisplayController::class, 'index'])->name('displays.index');
+        Route::post('/displays', [RoomDisplayController::class, 'store'])->name('displays.store');
+        Route::post('/displays/{display}/regenerate', [RoomDisplayController::class, 'regenerate'])->name('displays.regenerate');
+        Route::delete('/displays/{display}', [RoomDisplayController::class, 'destroy'])->name('displays.destroy');
     });
 });

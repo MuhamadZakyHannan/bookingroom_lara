@@ -130,6 +130,7 @@
                             <p class="py-5 text-center text-xs text-slate-500">Tidak ada pengajuan tertunda.</p>
                         @endforelse
                     </div>
+                    <a href="{{ route('admin.bookings.index', ['status' => 'pending']) }}" class="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-amber-200 px-3 py-2.5 text-xs font-bold text-amber-700 hover:bg-amber-50 dark:border-amber-900 dark:text-amber-300 dark:hover:bg-amber-950/30">Lihat Semua Pengajuan</a>
                 </section>
 
                 <section class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-700/80 dark:bg-slate-800">
@@ -147,6 +148,7 @@
                             <p class="py-5 text-center text-xs text-slate-500">Belum ada display terdaftar.</p>
                         @endforelse
                     </div>
+                    <a href="{{ route('admin.displays.index') }}" class="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-blue-200 px-3 py-2.5 text-xs font-bold text-blue-700 hover:bg-blue-50 dark:border-blue-900 dark:text-blue-300 dark:hover:bg-blue-950/30">Kelola Display</a>
                 </section>
             @endif
         </aside>
