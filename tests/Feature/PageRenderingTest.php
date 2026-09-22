@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Enums\AttendanceStatus;
 use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Models\Room;
@@ -31,7 +30,7 @@ class PageRenderingTest extends TestCase
     public function test_admin_approval_page_renders(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
-        $this->createSchedule($admin, BookingStatus::Pending, null);
+        $this->createSchedule($admin, BookingStatus::Pending);
 
         $this->actingAs($admin)
             ->get(route('admin.bookings.index', absolute: false))
@@ -42,7 +41,7 @@ class PageRenderingTest extends TestCase
     public function test_admin_management_pages_render(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
-        $this->createSchedule($admin, BookingStatus::Pending, null);
+        $this->createSchedule($admin, BookingStatus::Pending);
 
         $pages = [
             'admin.conflicts.index' => 'Rekomendasi Konflik SAW',
@@ -70,7 +69,6 @@ class PageRenderingTest extends TestCase
     private function createSchedule(
         User $user,
         BookingStatus $status = BookingStatus::Confirmed,
-        ?AttendanceStatus $attendance = AttendanceStatus::Scheduled,
     ): array {
         $room = Room::query()->create([
             'code' => 'R-PAGE',
@@ -92,7 +90,6 @@ class PageRenderingTest extends TestCase
             'activity_type' => 'internal_divisi',
             'attendees_count' => 4,
             'status' => $status,
-            'attendance_status' => $attendance,
         ]);
 
         return [$room, $booking];

@@ -31,6 +31,8 @@ http://localhost/Room_Booking_System_Laravel/public
 
 Konfigurasi awal menggunakan database lama sehingga akun, ruangan, booking, display, dan notifikasi tetap terbaca tanpa menyalin data.
 
+Fitur check-in/check-out sudah dinonaktifkan. Kolom attendance dari versi lama boleh tetap berada di database bersama dan akan diabaikan oleh aplikasi, sehingga tidak diperlukan perubahan skema yang berisiko menghapus riwayat.
+
 ## Peringatan database
 
 Jangan menjalankan `php artisan migrate:fresh`, `migrate:refresh`, atau `db:wipe` terhadap `meetspace_db`. Perintah tersebut dapat menghapus data aplikasi lama. Migration di repository disediakan untuk database baru dan pengujian otomatis.
@@ -60,9 +62,7 @@ Sudah tersedia:
 - Pengelolaan role pengguna dengan perlindungan akun sendiri, administrator terakhir, serta riwayat booking.
 - Registrasi perangkat display dengan token acak, status aktivitas, dan rotasi token.
 - Halaman booking pengguna dan otorisasi berbasis kepemilikan.
-- Check-in/check-out, grace period, no-show, serta auto check-out.
 - Kalender bulanan dan daftar agenda tanpa tampilan mingguan.
-- Command attendance yang aman dijalankan terjadwal.
 - Light mode dan dark mode.
 
 Tahap berikutnya:

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\AttendanceStatus;
 use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Models\Room;
@@ -161,11 +160,10 @@ class SawDecisionService
             $winner = $this->analyze($group)['winner']['booking'];
 
             Booking::query()->whereIn('id', $group->pluck('id')->reject(fn (int $id) => $id === $winner->id))
-                ->update(['status' => BookingStatus::Cancelled->value, 'attendance_status' => null]);
+                ->update(['status' => BookingStatus::Cancelled->value]);
 
             Booking::query()->whereKey($winner->id)->update([
                 'status' => BookingStatus::Confirmed->value,
-                'attendance_status' => AttendanceStatus::Scheduled->value,
             ]);
 
             return Booking::query()->with(['room', 'user'])->findOrFail($winner->id);

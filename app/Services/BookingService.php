@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Data\BookingData;
-use App\Enums\AttendanceStatus;
 use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Models\Room;
@@ -44,7 +43,6 @@ class BookingService
                 'activity_type' => $data->activityType->value,
                 'attendees_count' => $data->attendeesCount,
                 'status' => $status,
-                'attendance_status' => $status === BookingStatus::Confirmed ? AttendanceStatus::Scheduled : null,
             ]);
 
             if ($status === BookingStatus::Pending) {
@@ -78,7 +76,6 @@ class BookingService
 
             $lockedBooking->update([
                 'status' => BookingStatus::Confirmed,
-                'attendance_status' => AttendanceStatus::Scheduled,
             ]);
 
             return $lockedBooking->refresh();
@@ -93,7 +90,7 @@ class BookingService
                 throw ValidationException::withMessages(['booking' => 'Hanya pengajuan pending yang dapat ditolak.']);
             }
 
-            $lockedBooking->update(['status' => BookingStatus::Cancelled, 'attendance_status' => null]);
+            $lockedBooking->update(['status' => BookingStatus::Cancelled]);
 
             return $lockedBooking->refresh();
         }, attempts: 3);
@@ -104,12 +101,11 @@ class BookingService
         return DB::transaction(function () use ($booking): Booking {
             $lockedBooking = Booking::query()->lockForUpdate()->findOrFail($booking->id);
 
-            if (! in_array($lockedBooking->status, [BookingStatus::Pending, BookingStatus::Confirmed], true)
-                || $lockedBooking->attendance_status === AttendanceStatus::CheckedIn) {
+            if (! in_array($lockedBooking->status, [BookingStatus::Pending, BookingStatus::Confirmed], true)) {
                 throw ValidationException::withMessages(['booking' => 'Booking ini tidak dapat dibatalkan.']);
             }
 
-            $lockedBooking->update(['status' => BookingStatus::Cancelled, 'attendance_status' => null]);
+            $lockedBooking->update(['status' => BookingStatus::Cancelled]);
 
             return $lockedBooking->refresh();
         }, attempts: 3);

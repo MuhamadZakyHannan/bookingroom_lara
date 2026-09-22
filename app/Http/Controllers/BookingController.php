@@ -7,8 +7,6 @@ use App\Enums\ActivityType;
 use App\Http\Requests\StoreBookingRequest;
 use App\Models\Booking;
 use App\Models\Room;
-use App\Services\AttendancePolicyService;
-use App\Services\AttendanceService;
 use App\Services\BookingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +14,7 @@ use Illuminate\View\View;
 
 class BookingController extends Controller
 {
-    public function index(Request $request, AttendancePolicyService $attendancePolicy): View
+    public function index(Request $request): View
     {
         $bookings = Booking::query()
             ->with('room')
@@ -24,10 +22,6 @@ class BookingController extends Controller
             ->orderByRaw("CASE WHEN status = 'pending' THEN 0 ELSE 1 END")
             ->latest('id')
             ->paginate(12);
-
-        $bookings->getCollection()->each(function (Booking $booking) use ($attendancePolicy): void {
-            $booking->setAttribute('attendance_action', $attendancePolicy->state($booking));
-        });
 
         return view('bookings.index', compact('bookings'));
     }
@@ -64,21 +58,5 @@ class BookingController extends Controller
         $bookings->cancel($booking);
 
         return back()->with('success', 'Pemesanan berhasil dibatalkan.');
-    }
-
-    public function checkIn(Request $request, Booking $booking, AttendanceService $attendance): RedirectResponse
-    {
-        $this->authorize('checkIn', $booking);
-        $attendance->checkIn($booking, $request->user());
-
-        return back()->with('success', 'Check-in berhasil dicatat.');
-    }
-
-    public function checkOut(Request $request, Booking $booking, AttendanceService $attendance): RedirectResponse
-    {
-        $this->authorize('checkOut', $booking);
-        $attendance->checkOut($booking, $request->user());
-
-        return back()->with('success', 'Check-out berhasil dicatat.');
     }
 }

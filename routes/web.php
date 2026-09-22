@@ -30,13 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::post('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
-    Route::post('/bookings/{booking}/check-in', [BookingController::class, 'checkIn'])
-        ->middleware('throttle:10,1')
-        ->name('bookings.check-in');
-    Route::post('/bookings/{booking}/check-out', [BookingController::class, 'checkOut'])
-        ->middleware('throttle:10,1')
-        ->name('bookings.check-out');
-
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
     Route::get('/calendar/events', [CalendarController::class, 'events'])->name('calendar.events');
 

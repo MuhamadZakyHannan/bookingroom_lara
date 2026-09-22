@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Enums\AttendanceStatus;
 use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Models\Room;
@@ -44,9 +43,7 @@ class SawDecisionWorkflowTest extends TestCase
             ->assertSessionHasNoErrors();
 
         $this->assertSame(BookingStatus::Confirmed, $highPriority->refresh()->status);
-        $this->assertSame(AttendanceStatus::Scheduled, $highPriority->attendance_status);
         $this->assertSame(BookingStatus::Cancelled, $lowPriority->refresh()->status);
-        $this->assertNull($lowPriority->attendance_status);
     }
 
     public function test_non_admin_cannot_access_conflict_analysis(): void

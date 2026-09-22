@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Enums\AttendanceStatus;
 use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Models\Room;
@@ -32,7 +31,6 @@ class AdminBookingWorkflowTest extends TestCase
 
         $booking->refresh();
         $this->assertSame(BookingStatus::Confirmed, $booking->status);
-        $this->assertSame(AttendanceStatus::Scheduled, $booking->attendance_status);
     }
 
     public function test_admin_cannot_approve_booking_that_conflicts_with_confirmed_schedule(): void
@@ -51,7 +49,6 @@ class AdminBookingWorkflowTest extends TestCase
             'activity_type' => 'internal_divisi',
             'attendees_count' => 3,
             'status' => BookingStatus::Confirmed,
-            'attendance_status' => AttendanceStatus::Scheduled,
         ]);
 
         $this->actingAs($admin)

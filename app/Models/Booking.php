@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\AttendanceStatus;
 use App\Enums\BookingStatus;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
@@ -26,11 +25,6 @@ class Booking extends Model
         'activity_type',
         'attendees_count',
         'status',
-        'attendance_status',
-        'check_in_at',
-        'check_out_at',
-        'no_show_at',
-        'attendance_updated_by',
     ];
 
     protected function casts(): array
@@ -39,10 +33,6 @@ class Booking extends Model
             'date' => 'date',
             'attendees_count' => 'integer',
             'status' => BookingStatus::class,
-            'attendance_status' => AttendanceStatus::class,
-            'check_in_at' => 'datetime',
-            'check_out_at' => 'datetime',
-            'no_show_at' => 'datetime',
         ];
     }
 

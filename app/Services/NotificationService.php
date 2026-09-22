@@ -26,23 +26,4 @@ class NotificationService
             );
         });
     }
-
-    public function notifyAdminsOfAttendance(Booking $booking, string $type, string $message): void
-    {
-        User::query()->where('role', 'admin')->each(function (User $admin) use ($booking, $type, $message): void {
-            MeetingNotification::query()->updateOrCreate(
-                [
-                    'recipient_user_id' => $admin->id,
-                    'booking_id' => $booking->id,
-                    'type' => $type,
-                ],
-                [
-                    'title' => 'Pembaruan kehadiran rapat',
-                    'message' => $message,
-                    'is_read' => false,
-                    'read_at' => null,
-                ],
-            );
-        });
-    }
 }

@@ -39,11 +39,6 @@ return new class extends Migration
                 $table->string('activity_type', 50)->default('internal_divisi');
                 $table->integer('attendees_count')->default(1);
                 $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('confirmed');
-                $table->enum('attendance_status', ['scheduled', 'checked_in', 'checked_out', 'no_show'])->nullable();
-                $table->dateTime('check_in_at')->nullable();
-                $table->dateTime('check_out_at')->nullable();
-                $table->dateTime('no_show_at')->nullable();
-                $table->enum('attendance_updated_by', ['user', 'system'])->nullable();
                 $table->timestamp('created_at')->useCurrent();
 
                 $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
@@ -51,7 +46,7 @@ return new class extends Migration
                 $table->index(['room_id', 'date', 'status']);
                 $table->index(['date', 'status']);
                 $table->index(['user_id', 'status']);
-                $table->index(['status', 'attendance_status', 'date', 'start_time', 'end_time']);
+                $table->index(['status', 'date', 'start_time', 'end_time']);
             });
         }
 

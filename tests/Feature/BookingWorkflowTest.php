@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Enums\AttendanceStatus;
 use App\Enums\BookingStatus;
 use App\Models\Booking;
 use App\Models\Room;
@@ -26,7 +25,6 @@ class BookingWorkflowTest extends TestCase
 
         $booking = Booking::firstOrFail();
         $this->assertSame(BookingStatus::Pending, $booking->status);
-        $this->assertNull($booking->attendance_status);
         $this->assertDatabaseHas('notifications', [
             'recipient_user_id' => $admin->id,
             'booking_id' => $booking->id,
@@ -45,7 +43,6 @@ class BookingWorkflowTest extends TestCase
 
         $booking = Booking::firstOrFail();
         $this->assertSame(BookingStatus::Confirmed, $booking->status);
-        $this->assertSame(AttendanceStatus::Scheduled, $booking->attendance_status);
     }
 
     public function test_overlapping_admin_booking_is_kept_pending(): void
@@ -58,7 +55,6 @@ class BookingWorkflowTest extends TestCase
             'start_time' => '09:00',
             'end_time' => '10:00',
             'status' => BookingStatus::Confirmed,
-            'attendance_status' => AttendanceStatus::Scheduled,
         ]);
 
         $this->actingAs($admin)
@@ -127,7 +123,6 @@ class BookingWorkflowTest extends TestCase
             'activity_type' => 'internal_divisi',
             'attendees_count' => 5,
             'status' => BookingStatus::Pending,
-            'attendance_status' => null,
         ], $overrides));
     }
 }
